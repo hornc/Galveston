@@ -33,33 +33,34 @@ if __name__ == '__main__':
         open_ = gzip.open
     MODE = 'm'
     state = OUT
-    with open_(src, 'rb') as f:
-        enable = True
-        i = 0
-        c = 0
-        while c < 2:
-            while enable or ord(s) != 0:
-                enable = False
-                f.seek(i)
-                s = f.read(1)
-                if not s:
-                    c += 1
-                    s = b'\x00'
-                elif state == JMP:
-                    i = ord(s) - 1
-                    state = OUT
-                elif ord(s) == 1:  # JMP convention
-                    c = 0
-                    state = JMP
-                elif ord(s) != 0:
-                    c = 0
-                    print(s.decode(), end='')
-                i += 1
+    with open_(src, 'r') as f:
+        data = f.read()
 
-            c += 1
-            try:
-                i = int(input(f'\n({i}):> '))
-            except ValueError:
-                pass
-            enable = True
+    enable = True
+    i = 0
+    c = 0
+    while c < 2:
+        while enable or ord(s) != 0:
+            enable = False
+            s = data[i]
+            if not s:
+                c += 1
+                s = b'\x00'
+            elif state == JMP:
+                i = ord(s) - 1
+                state = OUT
+            elif ord(s) == 1:  # JMP convention
+                c = 0
+                state = JMP
+            elif ord(s) != 0:
+                c = 0
+                print(s, end='')
+            i += 1
+
+        c += 1
+        try:
+            i = int(input(f'\n({i}):> '))
+        except ValueError:
+            pass
+        enable = True
 
