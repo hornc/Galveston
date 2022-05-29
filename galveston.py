@@ -33,7 +33,7 @@ if __name__ == '__main__':
         open_ = gzip.open
     MODE = 'm'
     state = OUT
-    with open_(src, 'r') as f:
+    with open_(src, 'rt') as f:
         data = f.read()
 
     enable = True
