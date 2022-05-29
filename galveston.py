@@ -7,7 +7,8 @@ from argparse import RawTextHelpFormatter
 """
 Galveston, an experimental ω-word explorer.
 """
-version = '0.1α'
+
+version = '0.2α'
 QUOTE = """
 Still climbing after knowledge infinite,
 And always moving as the restless spheres,
