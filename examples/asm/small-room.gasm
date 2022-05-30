@@ -1,0 +1,59 @@
+[START]
+You are standing in a small stone room.{LF}
+There is a small desk in one corner and a door on the east wall.{LF}
+[examine desk: (DESK_INITIAL)]{LF}
+[examine door: (DOOR_LOCKED)]{LF}
+{NUL}
+{JMP}{START}
+
+[DESK_INITIAL]
+The desk is made of rough hewn oak.{LF}
+It has a drawer with a small brass ring pull.{LF}
+[open drawer: (OPEN_DRAWER)]{LF}
+{NUL}
+{JMP}{START}
+
+[DOOR_LOCKED]
+The door is locked. You need a key.{LF}
+{NUL}
+{JMP}{START}
+
+[OPEN_DRAWER]
+You open the drawer and find a large iron key!{LF}
+{NUL}
+
+[HAS_KEY]
+You are standing in a small stone room.{LF}
+There is a small desk in one corner and a door on the east wall.{LF}
+[examine desk: (DESK_EMPTY)]{LF}
+[unlock door: (UNLOCK_DOOR)]{LF}
+{NUL}
+{JMP}{HAS_KEY}
+
+[DESK_EMPTY]
+The desk is made of rough hewn oak.{LF}
+It has a drawer with a small brass ring pull.{LF}
+The drawer is open, and empty.{LF}
+{NUL}
+{JMP}{HAS_KEY}
+
+[UNLOCK_DOOR]
+You use the large iron key to open the door.{LF}
+The lock is very stiff, but you manage to shift
+ the bolts.{LF}
+[leave room (WIN)]{LF}
+{NUL}
+
+[DOOR_UNLOCKED]
+You are standing in a small stone room.{LF}
+There is a small desk in one corner and a door on the east wall.{LF}
+[examine desk: (DESK_EMPTY)]{LF}
+[leave room: (WIN)]{LF}
+{NUL}
+{JMP}{DOOR_UNLOCKED}
+
+[WIN]
+You leave the room.{LF}
+Congratulations! You are outside.{LF}
+You have escaped. YOU WIN!{LF}
+{NUL}{NUL}
