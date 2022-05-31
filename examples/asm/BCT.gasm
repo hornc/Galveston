@@ -1,0 +1,28 @@
+[START]
+[MAIN_LOOP]
+Is the data string empty?{LF}
+Empty: enter (END){LF}
+Otherwise: continue.{LF}
+{NUL}
+
+[READ_COMMAND]
+Select the next command in the program string (cycle back to the start if the last command is read).{LF}
+
+0: enter (ZERO){LF}
+1: enter (ONE){LF}
+{NUL}
+{JMP}{READ_COMMAND}
+
+[ZERO]
+Delete the leftmost databit.{LF}
+{NUL}
+{JMP}{MAIN_LOOP}
+
+[ONE]
+Append the next command (after the current 1) to the right of the data-string.{LF}
+{NUL}
+{JMP}{READ_COMMAND}
+
+[END]
+The BCT program halts.{LF}
+{NUL}{NUL}
