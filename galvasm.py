@@ -24,9 +24,9 @@ DIGITS = re.compile(r'[0-9]*')
 
 ABS = re.compile(r'({([0-9]+)})')  # Deprecated. Use SYMBOL
 SYMBOL = re.compile(r'({([A-Z0-9_]+)})')  # {} Symbol
-LABEL = re.compile(r'(\[([[A-Z0-9_]+)\])')  # Deprecated. Use DECIMAL
-DECIMAL = re.compile(r'(\(([[A-Z0-9_]+)\))')  # () Decimal representaion of symbol index in alphabet 
-LABEL_DECIMAL = re.compile(r'(\(([[A-Z0-9_]+)\))')
+LABEL = re.compile(r'(\[([A-Z0-9_]+)\])')  # Deprecated. Use DECIMAL
+DECIMAL = re.compile(r'(\(([A-Z0-9_]+)\))')  # () Decimal representaion of symbol index in alphabet
+LABEL_DECIMAL = re.compile(r'(\(([A-Z0-9_]+)\))')
 
 TOKENS = re.compile(r'(\([A-Z0-9_]+\)|\[[A-Z0-9_]+\]|{[A-Z0-9_]+})')
 
@@ -55,7 +55,7 @@ def replace_abs(s):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=ABOUT)
-    parser.add_argument('file', help='Source Galveston assemly language / markup file to compile')
+    parser.add_argument('file', help='Source Galveston assembly language / markup file to compile')
     parser.add_argument('--debug', '-d', help='Turn on debug output', action='store_true')
     args = parser.parse_args()
 
@@ -95,5 +95,3 @@ if __name__ == '__main__':
             print(str(labels[token[1:-1]]).rjust(INDEX_PAD, L_FILL), end='')
         else:
             print(token, end='')
-
-
