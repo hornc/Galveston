@@ -26,6 +26,7 @@ JMP = 2
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=f'Galveston (v{version})\n{QUOTE}', formatter_class=RawTextHelpFormatter)
     parser.add_argument('file', help='Galveston source [.glv|.glv.gz]')
+    parser.add_argument('--omega', '-ω', '-O', help='Read past EOF indefinitely', action='store_true')
     args = parser.parse_args()
 
     src = args.file
@@ -40,14 +41,14 @@ if __name__ == '__main__':
     enable = True
     i = 0
     c = 0
-    while c < 2:
+    while args.omega or c < 2:
         while enable or ord(s) != 0:
             enable = False
-            s = data[i]
-            if not s:
-                c += 1
+            try:
+                s = data[i]
+            except IndexError:
                 s = b'\x00'
-            elif state == JMP:
+            if state == JMP:
                 i = ord(s) - 1
                 state = OUT
             elif ord(s) == 1:  # JMP convention
@@ -58,10 +59,14 @@ if __name__ == '__main__':
                 print(s, end='')
             i += 1
 
-        c += 1
+        if not args.omega:
+            c += 1
         try:
             i = int(input(f'\n({i}):> '))
         except ValueError:
             pass
+        except KeyboardInterrupt:
+            print()
+            break
         enable = True
 
