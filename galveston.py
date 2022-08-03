@@ -16,6 +16,7 @@ Will us to wear ourselves, and never rest,
 Until we reach the ripest fruit of all, 
 That perfect bliss and sole felicity, 
 The sweet fruition of an earthly crown.
+    — Marlowe
 """
 
 NUL = 0
@@ -66,7 +67,7 @@ if __name__ == '__main__':
         except ValueError:
             pass
         except KeyboardInterrupt:
-            print()
+            print('Away! [Exuent')
             break
         enable = True
 
