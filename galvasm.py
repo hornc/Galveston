@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
+import gzip
+import os
 import re
 
 ABOUT = """
@@ -19,6 +21,7 @@ RESERVED = {
   '{JMP}': '\x01',
    '{LF}': '\x0a'
    }
+ENCODING = 'UTF-8'
 
 DIGITS = re.compile(r'[0-9]*')
 
@@ -53,18 +56,22 @@ def replace_abs(s):
     return s
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=ABOUT)
-    parser.add_argument('file', help='Source Galveston assembly language / markup file to compile')
-    parser.add_argument('--debug', '-d', help='Turn on debug output', action='store_true')
-    args = parser.parse_args()
+def assemble(source, labels):
+    output = ''
+    for token in source:
+        if SYMBOL.match(token):
+            output += chr(labels[token[1:-1]])
+        elif DECIMAL.match(token):
+            output += str(labels[token[1:-1]]).rjust(INDEX_PAD, L_FILL)
+        else:
+            output += token
+    return bytes(output, ENCODING)
 
-    DEBUG = args.debug
-    fname = args.file
+
+def readfile(fname):
     source = []
     i = 0  # Symbol index
     labels = {}  # dict of label indexes
-
     with open(fname, 'r') as f:
         for line in f.readlines():
             line = line.strip('\n')
@@ -84,14 +91,34 @@ if __name__ == '__main__':
                 else:
                     i += len(token)
                 source.append(token)
+    return source, labels
 
+
+def writeoutput(output, fname, outfname, compressed=False):
+    ext = '.glvz' if compressed else '.glv'
+    outfname = outfname or os.path.splitext(os.path.basename(fname))[0] + ext
+    open_ = gzip.open if args.zip else open
+    if not (args.zip or args.outfile):
+        print(output.decode(ENCODING))
+    else:
+        print(f'Writing output to {outfname}...')
+        with open_(outfname, 'wb') as f:
+            f.write(output)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=ABOUT)
+    parser.add_argument('file', help='Source Galveston assembly language / markup file to compile')
+    parser.add_argument('--debug', '-d', help='Turn on debug output', action='store_true')
+    parser.add_argument('--outfile', '-o', help='Output to file named <outfile>')
+    parser.add_argument('--zip', '-z', help='Compress (gzip) output to .glvz', action='store_true')
+    args = parser.parse_args()
+
+    DEBUG = args.debug
+    fname = args.file
+
+    source, labels = readfile(fname)
     if DEBUG:
-        print('LABELS:', labels)
-
-    for token in source:
-        if SYMBOL.match(token):
-            print(chr(labels[token[1:-1]]), end='')
-        elif DECIMAL.match(token):
-            print(str(labels[token[1:-1]]).rjust(INDEX_PAD, L_FILL), end='')
-        else:
-            print(token, end='')
+        print(labels)
+    output = assemble(source, labels)
+    writeoutput(output, fname, args.outfile, args.zip)
