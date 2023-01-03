@@ -10,5 +10,5 @@ The only fixed symbol in the alphabet `Σ` is the 0 indexed `NUL` character, `v0
 The concept of this language was inspired by Choose-your-own-Adventure style game books, and as such it may have some practical application as an interactive fiction engine.
 
 * [galveston.py](galveston.py) : ω-word explorer / engine.
-* [galvasm.py](galvasm.py): ω-word compiler.
+* [galvasm.py](galvasm.py): ω-word assembler.
 
