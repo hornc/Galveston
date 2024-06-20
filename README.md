@@ -71,7 +71,7 @@ Play the short escape room example:
 
     ./galveston.py examples/little-fable.glv
 
-Compile and "play" a fable by Aesop, in ancient Greek:
+Compile and "play" a fable by Aesop, in [ancient Greek](examples/asm/Aesopus135.gasm):
 
     ./galveston.py <(./galvasm.py examples/asm/Aesopus135.gasm)
 
@@ -79,7 +79,7 @@ Play a pre-compiled and compressed version of a Choose-your-own-adventure gamebo
 
     ./galveston.py examples/chimney_rock.glvz
 
-Participate in a comp-sci-experiment-cum-collaborative-game and prove this is a Turing complete programming language by helping simulate a cyclic tag system:
+Participate in a comp-sci-experiment-cum-collaborative-game and prove this is a Turing complete programming language by helping [simulate a cyclic tag system](examples/asm/BCT.gasm):
 
     ./galveston.py <(./galvasm.py examples/asm/BCT.gasm)  # you 'win' if you get any part of this one.
 
