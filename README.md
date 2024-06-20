@@ -33,7 +33,7 @@ It differs in that it adheres to this mathematical analogy far beyond what is ne
 
 Playing a game involves traversing the sequence quasi-linearly, using the output of `y = 0` bounded segments to make choices about the next input value to the function.
 
-This does mean that any practical Galveston compiler or interpreter probably cannot process _all_ valid Galveston strings, since not all can be readily represented in digital form. Again, this should be a practical problem for standard interactive fiction.
+This does mean that any practical Galveston compiler or interpreter probably cannot process _all_ valid Galveston strings, since not all can be readily represented in digital form. Again, this should _not_ be a practical problem for standard interactive fiction.
 
 In other words: it's a low capability interactive fiction engine hidden within a mathematical toy.
 
