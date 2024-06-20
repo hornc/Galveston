@@ -36,3 +36,48 @@ Playing a game involves traversing the sequence quasi-linearly, using the output
 This does mean that any practical Galveston compiler or interpreter probably cannot process _all_ valid Galveston strings, since not all can be readily represented in digital form. Again, this should be a practical problem for standard interactive fiction.
 
 In other words: it's a low capability interactive fiction engine hidden within a mathematical toy.
+
+## Usage
+
+View the help:
+
+```
+usage: galveston.py [-h] [--omega] file
+
+Galveston (v0.2α)
+
+Still climbing after knowledge infinite,
+And always moving as the restless spheres,
+Will us to wear ourselves, and never rest,
+Until we reach the ripest fruit of all, 
+That perfect bliss and sole felicity, 
+The sweet fruition of an earthly crown.
+    — Marlowe
+
+positional arguments:
+  file             Galveston source [.glv|.glv.gz]
+
+options:
+  -h, --help       show this help message and exit
+  --omega, -ω, -O  Read past EOF indefinitely
+```
+
+Play the short escape room example:
+
+    ./galveston.py examples/small-room.glv
+
+"Play" the short non-branching story, A Little Fable, by Franz Kafka:
+
+    ./galveston.py examples/little-fable.glv
+
+Compile and "play" a fable by Aesop, in ancient Greek:
+
+    ./galveston.py <(./galvasm.py examples/asm/Aesopus135.gasm)
+
+Play a pre-compiled and compressed version of a Choose-your-own-adventure gamebook from 1980:
+
+    ./galveston.py examples/chimney_rock.glvz
+
+Participate in a comp-sci-experiment-cum-collaborative-game and prove this is a Turing complete programming language by helping simulate a cyclic tag system:
+
+    ./galveston.py <(./galvasm.py examples/asm/BCT.gasm)  # you 'win' if you get any part of this one.
