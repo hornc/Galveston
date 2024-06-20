@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 import argparse
 import gzip
-import sys
 from argparse import RawTextHelpFormatter
+from pathlib import Path
 
 """
 Galveston, an experimental ω-word explorer.
 """
 
-version = '0.2α'
+version = '0.3α'
 QUOTE = """
 Still climbing after knowledge infinite,
 And always moving as the restless spheres,
@@ -19,15 +19,27 @@ The sweet fruition of an earthly crown.
     — Marlowe
 """
 
+
 NUL = 0
 OUT = 1
 JMP = 2
 
 
-if __name__ == '__main__':
+def plot(w, title):
+    import matplotlib.pyplot as plt
+    plt.plot([ord(c) for c in w])
+    plt.suptitle(title)
+    plt.title('y = g(x) : x ∈ ℕ, y ∈ Σ', fontsize=6)
+    plt.xlabel('Input value')
+    plt.ylabel('Output symbol')
+    plt.show()
+
+
+def main():
     parser = argparse.ArgumentParser(description=f'Galveston (v{version})\n{QUOTE}', formatter_class=RawTextHelpFormatter)
     parser.add_argument('file', help='Galveston source [.glv|.glv.gz]')
     parser.add_argument('--omega', '-ω', '-O', help='Read past EOF indefinitely', action='store_true')
+    parser.add_argument('--plot', '-p', help='plot the function on ℕ', action='store_true')
     args = parser.parse_args()
 
     src = args.file
@@ -38,6 +50,9 @@ if __name__ == '__main__':
     state = OUT
     with open_(src, 'rt') as f:
         data = f.read()
+
+    if args.plot:
+        plot(data, title=Path(src).name)
 
     enable = True
     i = 0
@@ -71,3 +86,6 @@ if __name__ == '__main__':
             break
         enable = True
 
+
+if __name__ == '__main__':
+    main()

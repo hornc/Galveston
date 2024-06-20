@@ -44,7 +44,7 @@ View the help:
 ```
 usage: galveston.py [-h] [--omega] file
 
-Galveston (v0.2α)
+Galveston (v0.3α)
 
 Still climbing after knowledge infinite,
 And always moving as the restless spheres,
@@ -60,6 +60,7 @@ positional arguments:
 options:
   -h, --help       show this help message and exit
   --omega, -ω, -O  Read past EOF indefinitely
+  --plot, -p       plot the function on ℕ
 ```
 
 Play the short escape room example:
@@ -81,3 +82,9 @@ Play a pre-compiled and compressed version of a Choose-your-own-adventure gamebo
 Participate in a comp-sci-experiment-cum-collaborative-game and prove this is a Turing complete programming language by helping simulate a cyclic tag system:
 
     ./galveston.py <(./galvasm.py examples/asm/BCT.gasm)  # you 'win' if you get any part of this one.
+
+Plot the function of [A Little Fable](examples/little-fable.glv)
+
+    ./galveston.py --plot examples/little-fable.glv
+
+![A Little Fable plot](img/little-fable.png)
