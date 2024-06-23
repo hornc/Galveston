@@ -109,6 +109,7 @@ def test_encode_inf(u):
 
 
 # TODO:
-# len() tests
 # ord() tests
-
+# strinf slicing
+# strinf indexing
+# strinf iteration
