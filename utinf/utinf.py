@@ -1,11 +1,32 @@
 import codecs
+import re
+
+
+INFCHR = re.compile(r'\\u[0-9a-fA-F]{5,}')
+UCHR = re.compile(r'\\u([0-9a-fA-F]{4})')
+REPL = '\ufffd'
 
 
 def chrinf(i):
     if i > 0x110000:
-        return '\ufffd'
+        return strinf(r'\u' + hex(i)[2:])
     else:
-        return chr(i)
+        return strinf(chr(i))
+
+
+class strinf(str):
+    def __len__(self):
+        return len(self.__str__())
+
+    def __str__(self):
+        s = INFCHR.sub(REPL, self)
+        for m in UCHR.findall(s):  # TODO: there is possibly a better way...
+            s = s.replace(r'\u' + m, chr(int(m, 16)))
+        return s
+
+    def __repr__(self):
+        s = ''.join([c for c in self])
+        return s
 
 
 class Codec(codecs.Codec):

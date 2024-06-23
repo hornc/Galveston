@@ -1,5 +1,5 @@
 import utinf
-from utinf import chrinf
+from utinf import chrinf, strinf
 import codecs
 import pytest
 
@@ -62,25 +62,53 @@ def test_encode(u):
     assert u.encode('utf-8') == u.encode('utinf')
 
 
-
-def test_chr():
-    # https://docs.python.org/3/library/functions.html#chr
-    # ValueError: chr() arg not in range(0x110000)
-    with pytest.raises(ValueError):
+class TestChr:
+    @pytest.mark.xfail(reason='chr() arg not in range(0x110000)', strict=True)
+    def test_chr(self):
+        # https://docs.python.org/3/library/functions.html#chr
+        # ValueError: chr() arg not in range(0x110000)
         c = chr(6000000)
         assert isinstance(c, str)
         assert len(c) == 1
         print(c)
 
+    def test_chrinf(self):
+        c = chrinf(6000000)
+        assert isinstance(c, str)
+        assert len(c) == 1
+        print(c)
+        d = chrinf(0x66FFFF)
+        assert len(d) == 1
+        assert c != d
+        print(f'{c} != {d}')
+        print(f'{repr(c)} != {repr(d)}')
 
-def test_chrinf():
-    c = chrinf(6000000)
-    assert isinstance(c, str)
-    assert len(c) == 1
-    print(c)
+
+
+def test_strinf():
+    s = strinf(r'a\u123456789abcdefABCDEF\u0063')
+    print(repr(s))
+    assert len(s) == 3
+    assert str(s) == 'a�c'
+    print(s)
+
+
+unicode_inf = [
+   r'hello \u12345678 there',
+   r'This is a test!!!',
+   r'BLAH\ufffff34\u0350 BLAH',
+   r'τηισ ισ α ωερυ γοοδ τεστ οφ Θνιψοδε.',
+   r'😀 	😁 	😂 	😃 	😄 	😅 	😆 	😇 	😈',
+]
+
+@pytest.mark.parametrize('u', unicode_inf)
+def test_encode_inf(u):
+    # test that this codec generally behaves the same as utf-8
+    print(strinf(u))
+    assert u.encode('utf-8') == strinf(u).encode('utinf')
 
 
 # TODO:
 # len() tests
 # ord() tests
-# chr() tests
+
