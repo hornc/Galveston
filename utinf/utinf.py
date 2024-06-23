@@ -14,6 +14,10 @@ def chrinf(i):
         return strinf(chr(i))
 
 
+def ordinf(c):
+    return ord(c)
+
+
 class strinf(str):
     def __len__(self):
         return len(self.__str__())

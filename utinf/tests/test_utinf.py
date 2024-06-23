@@ -1,5 +1,5 @@
 import utinf
-from utinf import chrinf, strinf
+from utinf import chrinf, ordinf, strinf
 import codecs
 import pytest
 
@@ -106,6 +106,14 @@ def test_encode_inf(u):
     # test that this codec generally behaves the same as utf-8
     print(strinf(u))
     assert u.encode('utf-8') == strinf(u).encode('utinf')
+
+
+def test_ordinf():
+    s = strinf(r'a\u123456789abcdefABCDEF\u0063')
+    assert ordinf(s[0]) == 97
+    assert ordinf(s[1]) == 0x123456789abcdefABCDEF
+    assert ordinf(s[2]) == 0x63
+    assert ordinf(s[-1]) == 0x63
 
 
 # TODO:
