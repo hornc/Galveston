@@ -4,6 +4,7 @@ import re
 
 INFCHR = re.compile(r'\\u[0-9a-fA-F]{5,}')
 UCHR = re.compile(r'\\u([0-9a-fA-F]{4})')
+ACHR = re.compile(r'(\\u[0-9a-fA-F]+|.)')
 REPL = '\ufffd'
 
 
@@ -15,11 +16,24 @@ def chrinf(i):
 
 
 def ordinf(c):
+    if isinstance(c, int):
+        return c
     return ord(c)
 
 
 class strinf(str):
+    def __init__(self, string):
+        self.data = []
+
+    def __getitem__(self, index):
+        if self.data:
+            return self.data[index]
+        else:
+            return self.__str__()[index]
+
     def __len__(self):
+        if self.data:
+            return len(self.data)
         return len(self.__str__())
 
     def __str__(self):
@@ -30,6 +44,17 @@ class strinf(str):
 
     def __repr__(self):
         s = ''.join([c for c in self])
+        return s
+
+    @classmethod
+    def fromraw(cls, rawstring):
+        s = cls('')
+        for m in ACHR.findall(rawstring):
+            print(m)
+            if len(m) > 1:  # \u repr
+                s.data.append(int(m[2:], 16))
+            else:  # single character
+                s.data.append(ord(m))
         return s
 
 

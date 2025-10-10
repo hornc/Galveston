@@ -109,8 +109,9 @@ def test_encode_inf(u):
 
 
 def test_ordinf():
-    s = strinf(r'a\u123456789abcdefABCDEF\u0063')
-    assert ordinf(s[0]) == 97
+    s = strinf.fromraw(r'a\u123456789abcdefABCDEF\u0063')
+    assert isinstance(s, strinf)
+    assert ordinf(s[0]) == 97 == ord('a')
     assert ordinf(s[1]) == 0x123456789abcdefABCDEF
     assert ordinf(s[2]) == 0x63
     assert ordinf(s[-1]) == 0x63
